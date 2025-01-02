@@ -1,0 +1,233 @@
+#!/bin/bash
+
+# Use the command 'quest show' to see all defaults and overrides
+# task show [KEY-VALUE PAIR]
+
+include dark-256.theme
+
+# GENERAL SETTINGS *******************************************************************************
+
+  editor=$EDITOR
+  verbose=affected,blank,context,footnote,label,new-id,news,project,special,sync,override,recur
+  rule.precedence.color=uda,deleted,completed,active,keyword.,tag.,project.,overdue,scheduled,due.today,due,blocked,blocking,recurring,tagged
+  
+  print.empty.columns=yes
+  exit.on.missing.db=yes
+  search.case.sensitive=0
+  # color.status.
+
+# COLOR SETTINGS
+
+  color.active=
+
+# TABLE: JOB APPLICATIONS COLUMNS DEFINITION *****************************************************
+
+  # Columns are defined according to vita job posting form v1.0
+
+  # uuid: #READ-ONLY
+  # url: 
+  # reference: 
+  # due: 
+  # priority: 
+  # date_applied: 
+  # application_status: 
+  # resume: 
+  # title: 
+  # employer: 
+  # industry: 
+  # location: 
+  # salary: 
+  # contact:
+  #     name: 
+  #     email: 
+  #     phone: 
+  # tags: 
+  # notes: 
+
+  # uuid (built in)
+
+  # url **************************************
+    uda.url.label=URL
+    uda.url.type=string
+    uda.url.indicator=...
+    # color.uda.url=color249
+  # url **************************************
+
+  # job reference id ********************************
+    uda.reference_id.label=reference
+    uda.reference_id.type=string
+    # color.uda.reference_id=color242
+  # reference  ********************************************
+
+  # deadline (built-in)
+
+  # priority *****************************************
+    urgency.uda.priority.C.coefficient=9.0   # CRITICAL
+    urgency.uda.priority.H.coefficient=6.0   # HIGH
+    urgency.uda.priority.M.coefficient=3.9   # MEDIUM
+    urgency.uda.priority.L.coefficient=1.8   # LOW
+    urgency.uda.priority.T.coefficient=-0.5  # TRIVIAL
+    color.uda.priority.C=color255 on color9
+    color.uda.priority.H=
+    color.uda.priority.M=
+    color.uda.priority.L=
+    color.uda.priority.T=color240
+  # priority *****************************************
+
+  # application date sent ********************************
+    uda.date_applied.label=date applied
+    uda.date_applied.type=date
+    urgency.uda.date_applied.coefficient=1.0
+    # color.uda.date_applied=color252
+  # application date sent  ********************************
+
+  # col 5: status  **********************************************
+    uda.udastatus.label=status
+    uda.udastatus.type=string
+    uda.udastatus.values=unapplied,applied,pending,interviewing,offered,rejected
+    uda.udastatus.default=unapplied
+    urgency.uda.udastatus.coefficient=2.0
+    color.uda.udastatus.unapplied=color9
+    color.uda.udastatus.rejected=gray6
+  # col 5: status  **********************************************
+
+  # resume **************************************
+    uda.resume.label=resume id
+    uda.resume.type=string
+    urgency.uda.resume.coefficient=1.0
+    # color.uda.resume=color250
+  # resume **************************************
+
+  # col 3: title (DEPRECATED)  **********************************************
+    # uda.title.label=job title
+    # uda.title.type=string
+    # color.uda.title=color254
+  # col 3: title  **********************************************
+
+  # col 4: employer  **********************************************
+    uda.employer.label=employer
+    uda.employer.type=string
+    urgency.uda.employer.coefficient=1.0
+    # color.uda.employer=color254
+  # col 4: employer  **********************************************
+
+  # industry ******************************************
+    uda.industry.label=industry
+    uda.industry.type=string
+    # color.uda.industry=color245
+  # industry ****************************************
+
+  # location ****************************************
+    uda.location.label=location
+    uda.location.type=string
+    urgency.uda.location.coefficient=1.0
+    # color.uda.location=color245
+  # location ****************************************
+
+  # salary ******************************************
+    uda.salary.label=salary
+    uda.salary.type=numeric
+    urgency.uda.salary.coefficient=1.0
+    # color.uda.salary=color244
+  # salary ****************************************** 
+
+  # col 6: contact  **********************************************
+    uda.contact.label=contact
+    uda.contact.type=string # yaml
+    urgency.uda.contact.coefficient=1.0
+    # color.uda.contact=color251
+  # col 6: contact  **********************************************
+
+  # tags (built-in)
+
+  # notes *******************************************
+    # notes will use the built-in description
+  # notes
+
+# REPORTS *****************************************
+
+  # Do $ task columns for details
+
+  # default report
+  default.command=partial
+
+  # SPECIFY:
+    # 1. description
+    # 2. columns
+    # 3. labels
+    # 4. filter
+    # 5. sort
+    # 6. grouping*
+
+  # Full Table
+    report.full.description="Full report containing all UDAs"
+    report.full.columns=id,url.indicator,reference_id,due.countdown,priority,date_applied,udastatus,resume,description.truncated,employer,industry,location,salary,contact,tags.count,urgency,uuid.short
+    report.full.labels=id,url,reference,due,pri,date,status,resume,title,employer,industry,location,salary,contact,tags,urg,uuid
+    # report.fulltable.sort=
+  # Full Table
+
+  # Partial report
+    report.partial.description="Partial report of job applications"
+    report.partial.columns=id,reference_id,due.countdown,date_applied,udastatus,resume,description.truncated,employer,location,salary
+    report.partial.labels=id,reference,due,sent,status,resume,title,employer,location,salary
+    report.partial.sort=entry
+  # Partial Report
+
+  # Minimal Report
+      report.minimal.description="Minimal report for small windows"
+      report.minimal.columns=id,reference_id,udastatus,description.truncated,employer
+      report.minimal.labels=id,ref,status,title,employer
+      report.minimal.sort=entry-
+  # Minimal Report
+
+  # Sort by deadline (accidently overwritten)
+        report.due.description="Minimal report for small windows"
+        report.due.columns=id,reference_id,udastatus,description.truncated,employer
+        report.due.labels=id,ref,status,title,employer
+        report.due.sort=entry-
+  # Sort by deadline
+
+  # url report
+    report.url.description='show url'
+    report.url.columns=id,uuid.short,url
+  # url report
+
+  # UUID REPORT
+    report.uuid.description=""
+    report.uuid.columns=id,uuid,description,status.short
+    report.uuid.labels=id,uuid,description,st
+    report.uuid.sort=id+
+  # UUID REPORT
+
+  # last inserted
+    report.last_insert.description=Reports all info on last inserted task
+    report.last_insert.columns=id,uuid.short,status,start.active,depends.indicator,priority,project.parent,tags,recur.indicator,wait.remaining,scheduled.remaining,due,until.remaining,description
+    report.last_insert.labels=ID,UUID,Status,A,D,P,Project,Tags,R,Wait,Sch,Due,Until,Description
+    report.last_insert.sort=entry-
+    report.last_insert.filter=limit:1 status:pending
+  # last inserted
+
+# ALIASES ******************************************************************
+  alias.insert=add # example
+
+# TEMPLATES ******************************************************************
+
+    # where X is uda name and V is value, F is foreground color and B is background color
+
+    # uda.X.type=string|numeric|date|duration
+    # uda.X.label=
+    # uda.X.default=
+    # uda.X.indicator=
+    # uda.X.values=
+    # 
+    # color.uda.X=F on B
+    # color.uda.X.V=F on B
+    # color.uda.X.none=F on B
+    # 
+    # urgency.uda.X.coefficient=
+    # urgency.uda.X.V.coefficient=
+
+    # these are the complete configuration of a uda
+
+# MISC *********************************************************************************
+news.version=3.2.0
